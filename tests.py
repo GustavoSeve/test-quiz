@@ -134,7 +134,33 @@ def test_remove_same_choice_twice():
     with pytest.raises(Exception):
         question.remove_choice_by_id(choice.id)
 
+# Fixture
 
+@pytest.fixture
+def question():
+    question = Question(title='q1')
+    return question
+
+@pytest.fixture
+def question_with_choices():
+    question_choices = Question(title='q1')
+
+    question_choices.add_choice('a', False)
+    question_choices.add_choice('b', False)
+    question_choices.add_choice('c', False)
+    question_choices.add_choice('d', False)
+
+    return question_choices
+
+def test_creating_question_with_fixture(question):
+    assert question.id != None 
+
+def test_fixture_creating_multiple_choices_in_question(question_with_choices):
+    choices = question_with_choices.choices
+
+    ids = [c.id for c in choices]
+
+    assert len(ids) == len(set(ids))
 
 
 
